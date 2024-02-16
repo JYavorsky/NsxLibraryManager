@@ -2,9 +2,13 @@ name: Docker
 
 on:
   push:
-    branches:
-      - main
-
+    paths-ignore:
+      - 'README.md'
+      - '.github/workflows/*'        
+    branches: 
+      - master
+  workflow_dispatch:
+  
 jobs:
   build_and_push:
     name: Build and Push Docker Image
