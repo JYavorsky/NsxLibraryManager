@@ -13,8 +13,10 @@ FROM build AS publish
 RUN dotnet publish "NsxLibraryManager.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-RUN chown app:app /app
+COPY --from=publish /app/publish /app
+RUN mkdir -p /app/backup
+RUN mkdir -p /app/renamer/in /app/renamer/out
+RUN chown app:app /app -R
 USER app
+WORKDIR /app
 ENTRYPOINT ["dotnet", "NsxLibraryManager.dll"]
